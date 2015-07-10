@@ -21,7 +21,6 @@ function premier_hover_notification_style() {
 add_action( 'wp_enqueue_scripts', 'premier_hover_notification_style' );
 
 
-
 /**
  * Output custom styles to HTML head
  *
@@ -42,19 +41,20 @@ add_action( 'wp_head' , 'premier_notification_hover_custom_styles' );
 
 
 /**
- * Display hover notification
+ * Display hover notification on front end
  *
  */
 function premier_notification_hover_display() {
 	$options = get_option('premier_hover_notification');
-	if( $options['extra_class'] != '' ) {
-		$class = ' ' . esc_html( $options['extra_class'] );
-	} else $class = '';
 	if( $options['enable_display'] == 'Y' ) {
+		if( $options['extra_class'] != '' ) {
+			$class = ' ' . esc_html( $options['extra_class'] );
+		} else $class = '';
 		$output  = '<div class="premier-hover-notification' . $class . '">';
 		$output .= wp_kses_post( $options['content'] );
+		$output .= '<div class="premier-hover-notification-close" onclick="this.parentNode.parentNode.removeChild(this.parentNode); return false;">X</div>';
 		$output .= '</div>';
 		echo $output;
-	}
+	} else return;
 }
-add_action( 'loop_start' , 'premier_notification_hover_display' );
+add_action( 'wp_head' , 'premier_notification_hover_display' );
