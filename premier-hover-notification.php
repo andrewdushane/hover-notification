@@ -9,7 +9,7 @@
  * License: GPL2
  */
 
-include_once('includes/options.php');
+include_once( 'includes/options.php' );
 
 /**
  * Enqueue style sheet
@@ -51,7 +51,7 @@ function premier_notification_hover_display() {
 			$class = ' ' . esc_html( $options['extra_class'] );
 		} else $class = '';
 		$output  = '<div class="premier-hover-notification' . $class . '">';
-		$output .= wp_kses_post( $options['content'] );
+		$output .= $options['content'];
 		$output .= '<div class="premier-hover-notification-close" onclick="this.parentNode.parentNode.removeChild(this.parentNode); return false;">X</div>';
 		$output .= '</div>';
 		echo $output;

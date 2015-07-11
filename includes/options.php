@@ -34,12 +34,38 @@ if( is_admin() ) {
 			update_option( 'premier_hover_notification', $options );
 		}
 		
+		
+		/**
+		 * Allow <input> and <script> tags
+		 *
+		 */
+		function phn_sanitize_content( $content ) {
+			$wp_allowed_html = wp_kses_allowed_html( 'post' );
+			$custom_allowed_html = array(
+			    'input' => array(
+			    	'name' => array(),
+			    	'id'    => array(),
+			    	'value' => array(),
+			    	'class' => array(),
+					'type' => array()
+				),
+				'script' => array(
+			    	'type' => array(),
+			    	'src'  => array()
+				)
+			);
+			$allowed_html = $wp_allowed_html + $custom_allowed_html;
+			$sanitized_content = wp_kses( $content , $allowed_html );
+			return $sanitized_content;
+		}
+		
+		
 		/**
 		 * Update options if submitted
 		 *
 		 */
 		if( isset($_POST['options_submitted']) &&  $_POST['options_submitted'] == 'Y' ) {
-			$options['content']		     = wp_kses_post($_POST['premier_hover_notification_editor']);
+			$options['content']		     = phn_sanitize_content($_POST['premier_hover_notification_editor']);
 			$options['text_color'] 	     = '#' . esc_html($_POST['text_color']);
 			$options['background_color'] = '#' . esc_html($_POST['background_color']);
 			$options['width'] 		     = intval(esc_html($_POST['width'])) . 'px';
@@ -56,7 +82,7 @@ if( is_admin() ) {
 		 */
 		$options = get_option('premier_hover_notification');
 		if( $options != '' ) {
-			$content 		  = wp_kses_post($options['content']);
+			$content 		  = $options['content'];
 			$text_color 	  = substr( esc_html($options['text_color']) , 1 );
 			$background_color = substr( esc_html($options['background_color']) , 1);
 			$width 			  = intval(esc_html($options['width']));
@@ -71,6 +97,8 @@ if( is_admin() ) {
 			}
 			else return;
 		}
+		
+		$options_page_url = admin_url( '/admin.php?page=premier-hover-notification' );
 		
 		include_once('options-page.php');
 	}

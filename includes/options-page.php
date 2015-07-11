@@ -18,7 +18,7 @@
 					
 					<div class="postbox">
 						<div class="inside">
-							<form name="premier_hover_notification_options_form" method="post" action="">
+							<form name="premier_hover_notification_options_form" method="post" action="<?php echo $options_page_url; ?>">
 								<input type="hidden" name="options_submitted" value="Y">
 								<table class="form-table">	
 									<h3>Enable Hover Notification?
