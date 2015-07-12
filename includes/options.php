@@ -47,7 +47,9 @@ if( is_admin() ) {
 			    	'id'    => array(),
 			    	'value' => array(),
 			    	'class' => array(),
-					'type' => array()
+					'type' => array(),
+					'onblur' => array(),
+					'onfocus' => array()
 				),
 				'script' => array(
 			    	'type' => array(),
@@ -82,7 +84,7 @@ if( is_admin() ) {
 		 */
 		$options = get_option('premier_hover_notification');
 		if( $options != '' ) {
-			$content 		  = $options['content'];
+			$content 		  = stripslashes( $options['content'] );
 			$text_color 	  = substr( esc_html($options['text_color']) , 1 );
 			$background_color = substr( esc_html($options['background_color']) , 1);
 			$width 			  = intval(esc_html($options['width']));

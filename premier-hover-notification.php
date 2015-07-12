@@ -51,7 +51,7 @@ function premier_notification_hover_display() {
 			$class = ' ' . esc_html( $options['extra_class'] );
 		} else $class = '';
 		$output  = '<div class="premier-hover-notification' . $class . '">';
-		$output .= $options['content'];
+		$output .= stripslashes( $options['content'] );
 		$output .= '<div class="premier-hover-notification-close" onclick="this.parentNode.parentNode.removeChild(this.parentNode); return false;">X</div>';
 		$output .= '</div>';
 		echo $output;
